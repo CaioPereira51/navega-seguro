@@ -1,0 +1,7 @@
+<script setup lang="ts">
+import { ref } from 'vue'; import { RouterLink, RouterView } from 'vue-router'; import { ShieldCheck, Sun, Moon, Menu, X } from 'lucide-vue-next';
+const dark = ref(localStorage.getItem('ns-theme') === 'dark'); const open = ref(false);
+function toggleTheme(){ dark.value=!dark.value; document.documentElement.classList.toggle('dark',dark.value); localStorage.setItem('ns-theme',dark.value?'dark':'light') }
+if(dark.value) document.documentElement.classList.add('dark');
+</script>
+<template><div class="app-shell"><header class="topbar"><RouterLink to="/" class="brand" @click="open=false"><span class="brand-mark"><ShieldCheck :size="20"/></span><span>Navega<span class="brand-accent">Seguro</span></span></RouterLink><button class="icon-button mobile-menu" @click="open=!open" :aria-label="open?'Fechar menu':'Abrir menu'"><X v-if="open"/><Menu v-else/></button><nav :class="['nav', { 'nav-open': open }]" aria-label="Navegação principal"><RouterLink to="/aprender" @click="open=false">Aprender</RouterLink><RouterLink to="/praticar" @click="open=false">Praticar</RouterLink><RouterLink to="/sobre" @click="open=false">Sobre o projeto</RouterLink><button class="theme-button" @click="toggleTheme" :aria-label="dark?'Ativar modo claro':'Ativar modo escuro'"><Sun v-if="dark" :size="17"/><Moon v-else :size="17"/></button></nav></header><main><RouterView/></main><footer><span>© {{ new Date().getFullYear() }} NavegaSeguro</span><span>Educação digital aberta, sem cadastro e sem anúncios.</span></footer></div></template>
